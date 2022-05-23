@@ -32,15 +32,17 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
   useEffect(() => {
-    setLoading(true);
-    // Load the check to see if the user  and store it in state
-    fetch("api/check-is-in-server")
-      .then((res) => res.json())
-      .then((d) => {
-        setData(d);
-        setLoading(false);
-      });
-  }, []);
+    if (session) {
+      setLoading(true);
+      // Load the check to see if the user  and store it in state
+      fetch("api/check-is-in-server")
+        .then((res) => res.json())
+        .then((d) => {
+          setData(d);
+          setLoading(false);
+        });
+    }
+  }, [session]);
 
   // Function to create a signature on the server-side, and use the signature to mint the NFT
   async function mintNft() {
