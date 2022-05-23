@@ -4,7 +4,7 @@
 
 In this guide, we will utilize [signature-based minting](https://portal.thirdweb.com/python/erc721-signature-minting) of NFTs as a mechanism to reward users of a specific community. We connect user's with their Discord account, and generate signatures for an NFT if the user is a **member** of the Discord server.
 
-**Check out the Demo here**: https://community-book-nft.vercel.app/
+**Check out the Demo here**: https://community-rewards.vercel.app
 
 If you're interested in reading the basics of signature-based minting, we recommend starting with this example repository: https://github.com/thirdweb-example/signature-based-minting-next-ts
 
@@ -122,16 +122,16 @@ This is so that we can later make another API request an access which servers th
 
 Head to the [Discord Developer portal](https://discord.com/developers/applications) and create a new application.
 
-Under the `Oauth2` tab, copy you client ID and client secret. We need to store these as environment variables in our project so that we can use them on the API routes in our application.
+Under the `Oauth2` tab, copy your client ID and client secret. We need to store these as environment variables in our project so that we can use them on the API routes in our application.
 
-Create a file in your project called `.env.local` and add the following lines:
+Create a file at the root of your project called `.env.local` and add the following lines:
 
 ```bash
 CLIENT_ID=<your-discord-client-id-here>
 CLIENT_SECRET=<your-discord-client-secret-here>
 ```
 
-Under the `Redirects` section, you need to add the following value as a redirect URI.
+Back in the Discord portal, under the `Redirects` section, you need to add the following value as a redirect URI:
 
 ```
 http://localhost:3000/api/auth/callback/discord
@@ -181,6 +181,8 @@ Now when we call `useSession` or `getSession`, we have access to the `accessToke
 
 Before the user see's the mint button, we make a check to see if the user is a member of the Discord server, using Next.js API Routes.
 
+This logic is performed on the [pages/api/check-is-in-server.js](pages/api/check-is-in-server.js) file.
+
 First, we get the user's accessToken from the session.
 
 We use this accessToken to request which servers the user is a member of.
@@ -202,9 +204,7 @@ const response = await fetch(`https://discordapp.com/api/users/@me/guilds`, {
 const data = await response.json();
 ```
 
-Now we have all the servers the user is a member of inside `data`.
-
-We can filter the array of servers to find the one we are looking for:
+Now we have all the servers the user is a member of inside the `data` variable. We can filter the array of servers to find the one we are looking for:
 
 ```jsx
 // Put Your Discord Server ID here
@@ -221,7 +221,7 @@ const thirdwebDiscordMembership = data?.find(
 res.status(200).json({ thirdwebMembership: thirdwebDiscordMembership });
 ```
 
-We make a `fetch` request on the client to this API route:
+We then make a `fetch` request on the client to this API route on the [index.js](/pages/index.js) file:
 
 ```jsx
 // This is simply a client-side check to see if the user is a member of the discord in /api/check-is-in-server
@@ -266,7 +266,7 @@ Now the user can either make another request to mint the NFT, or join the Discor
 
 ## Signature Based Minting
 
-On the client-side, we make a request to the [generate-signature](/pages/api/generate-signature.js) API route to ask the server to generate a signature for us to use to mint an NFT.
+On the client-side, when the user clicks the `Mint` button, we make a request to the [generate-signature](/pages/api/generate-signature.js) API route to ask the server to generate a signature for us to use to mint an NFT.
 
 ```jsx
 // Make a request to the API route to generate a signature for us to mint the NFT with
@@ -303,6 +303,12 @@ const sdk = ThirdwebSDK.fromPrivateKey(process.env.PRIVATE_KEY, "mumbai");
 
 You'll need another entry in your `.env.local` file, containing your private key for this to work.
 
+**IMPORTANT:** Never use your private key value outside of a secured server-side environment.
+
+```
+PRIVATE_KEY=<your-private-key-here>
+```
+
 Next, we get our NFT collection contract:
 
 ```jsx
@@ -336,7 +342,7 @@ res.status(200).json({
 });
 ```
 
-The client uses this signature to `mint` the NFT that was generated on the server.
+The client uses this signature to `mint` the NFT that was generated on the server back on [index.js](/pages/index.js):
 
 ```jsx
 // If the user meets the criteria to have a signature generated, we can use the signature
@@ -350,6 +356,8 @@ if (signature.status === 200) {
 }
 ```
 
+Voilà! You have generated a signature for an NFT on the server-side, and used the signature to mint that NFT on the client side! Effectively, restricting access to an exclusive set of users to mint NFTs in your collection.
+
 ## Going to production
 
 In a production environment, you need to have an environment variable called `NEXTAUTH_SECRET` for the Discord Oauth to work.
@@ -358,6 +366,12 @@ You can learn more about it here:
 https://next-auth.js.org/configuration/options
 
 You can quickly create a good value on the command line via this openssl command.
+
+And add it as an environment variable in your `.env.local` file:
+
+```
+NEXTAUTH_SECRET=<your-value-here>
+```
 
 ```bash
 openssl rand -base64 32
