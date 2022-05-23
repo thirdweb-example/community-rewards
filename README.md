@@ -30,8 +30,6 @@ If you're interested in reading the basics of signature-based minting, we recomm
 
 - We use the thirdweb discord server ID `834227967404146718`. Find and replace instances of this ID with your own Discord server ID. You can learn how to get your Discord server ID from [this guide](https://www.alphr.com/discord-find-server-id/).
 
-- TODO: ENV VARIABles
-
 ```bash
 npm install
 # or
