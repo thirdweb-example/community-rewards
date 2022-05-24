@@ -60,7 +60,7 @@ export default async function generateNftSignature(req, res) {
   const signedPayload = await nftCollection.signature.generate({
     to: claimerAddress,
     metadata: {
-      name: `${session.user.name}'s Thirdweb Discord Member NFT`,
+      name: `${session.user.name}'s thirdweb Discord Member NFT`,
       image: `${session.user.image}`,
       description: `An NFT rewarded to ${session.user.name} for being a part of the thirdweb community!`,
     },
