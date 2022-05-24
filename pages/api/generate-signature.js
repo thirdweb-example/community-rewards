@@ -1,7 +1,7 @@
 import { getSession } from "next-auth/react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-export default async function checkDiscordMembershipSatus(req, res) {
+export default async function generateNftSignature(req, res) {
   // Get the Next Auth session so we can use the accessToken as part of the discord API request
   const session = await getSession({ req });
 
@@ -23,6 +23,9 @@ export default async function checkDiscordMembershipSatus(req, res) {
 
   // Parse the response as JSON
   const data = await response.json();
+
+  // You may get rate limited here and receive an error.
+  console.log(data);
 
   // Filter all the servers to find the one we want
   // Returns undefined if the user is not a member of the server
@@ -57,10 +60,9 @@ export default async function checkDiscordMembershipSatus(req, res) {
   const signedPayload = await nftCollection.signature.generate({
     to: claimerAddress,
     metadata: {
-      name: "Thirdweb Discord Member NFT",
-      image:
-        "https://ipfs.thirdweb.com/ipfs/QmQucXbuzZn1wqbJG5Yi8TLb9ggUpA3DUZjki9crbt2GLz/0.png",
-      description: "An NFT rewarded to those part of the thirdweb community!",
+      name: `${session.user.name}'s Thirdweb Discord Member NFT`,
+      image: `${session.user.image}`,
+      description: `An NFT rewarded to ${session.user.name} for being a part of the thirdweb community!`,
     },
   });
 

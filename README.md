@@ -320,15 +320,16 @@ const nftCollection = sdk.getNFTCollection(
 
 And finally generate the signature for the NFT:
 
+We use the information of the user's Discord profile for the metadata of the NFT! How cool is that?
+
 ```jsx
 // Generate the signature for the NFT mint transaction
 const signedPayload = await nftCollection.signature.generate({
   to: claimerAddress,
   metadata: {
-    name: "Thirdweb Discord Member NFT",
-    image:
-      "https://ipfs.thirdweb.com/ipfs/QmQucXbuzZn1wqbJG5Yi8TLb9ggUpA3DUZjki9crbt2GLz/0.png",
-    description: "An NFT rewarded to those part of the thirdweb community!",
+    name: `${session.user.name}'s Thirdweb Discord Member NFT`,
+    image: `${session.user.image}`,
+    description: `An NFT rewarded to ${session.user.name} for being a part of the thirdweb community!`,
   },
 });
 ```
@@ -367,14 +368,14 @@ https://next-auth.js.org/configuration/options
 
 You can quickly create a good value on the command line via this openssl command.
 
+```bash
+openssl rand -base64 32
+```
+
 And add it as an environment variable in your `.env.local` file:
 
 ```
 NEXTAUTH_SECRET=<your-value-here>
-```
-
-```bash
-openssl rand -base64 32
 ```
 
 ## Join our Discord!

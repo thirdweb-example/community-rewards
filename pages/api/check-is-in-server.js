@@ -1,8 +1,10 @@
 import { getSession } from "next-auth/react";
 
-export default async function claimNft(req, res) {
+export default async function checkIsInServer(req, res) {
   // Get the Next Auth session so we can use the accessToken as part of the discord API request
   const session = await getSession({ req });
+
+  console.log("Session:", session);
 
   // Put Your Discord Server ID here
   const discordServerId = "834227967404146718";
@@ -19,6 +21,9 @@ export default async function claimNft(req, res) {
 
   // Parse the response as JSON
   const data = await response.json();
+
+  // You may get rate limited here and receive an error.
+  console.log("data:", data);
 
   // Filter all the servers to find the one we want
   // Returns undefined if the user is not a member of the server
