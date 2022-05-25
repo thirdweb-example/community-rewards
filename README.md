@@ -1,4 +1,4 @@
-# Signature Based Minting with Next.JS
+# Community Rewards Example
 
 ## Introduction
 
