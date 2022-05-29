@@ -25,7 +25,10 @@ export default async function generateNftSignature(req, res) {
   const data = await response.json();
 
   // You may get rate limited here and receive an error.
-  console.log(data);
+  if (response.status !== 200) {
+    console.log("Error:", response.statusText);
+    return;
+  }
 
   // Filter all the servers to find the one we want
   // Returns undefined if the user is not a member of the server
