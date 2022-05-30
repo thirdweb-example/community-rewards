@@ -19,24 +19,20 @@ export default async function checkIsInServer(req, res) {
     },
   });
 
-  if (response.status === 200) {
-    // Parse the response as JSON
-    const data = await response.json();
+  // You may get rate limitd here and receive an error.
 
-    // Filter all the servers to find the one we want
-    // Returns undefined if the user is not a member of the server
-    // Returns the server object if the user is a member
-    const thirdwebDiscordMembership = data?.find(
-      (server) => server.id === discordServerId
-    );
+  // Parse the response as JSON
+  const data = await response.json();
 
-    // Return undefined or the server object to the client.
-    res
-      .status(200)
-      .json({ thirdwebMembership: thirdwebDiscordMembership ?? undefined });
-  } else {
-    // You may get rate limited here and receive an error.
-    console.log("Error:", response.statusText);
-    return;
-  }
+  // Filter all the servers to find the one we want
+  // Returns undefined if the user is not a member of the server
+  // Returns the server object if the user is a member
+  const thirdwebDiscordMembership = data?.find(
+    (server) => server.id === discordServerId
+  );
+
+  // Return undefined or the server object to the client.
+  res
+    .status(200)
+    .json({ thirdwebMembership: thirdwebDiscordMembership ?? undefined });
 }

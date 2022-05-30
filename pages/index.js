@@ -38,7 +38,7 @@ export default function Home() {
       fetch("api/check-is-in-server")
         .then((res) => res.json())
         .then((d) => {
-          setData(d);
+          setData(d || undefined);
           setLoading(false);
         });
     }
@@ -119,6 +119,13 @@ export default function Home() {
             <h3>Hey {session?.user?.name} 👋</h3>
             <h4>Thanks for being a member of the Discord.</h4>
             <p>Here is a reward for you!</p>
+
+            {/* NFT Preview */}
+            <div className={styles.nftPreview}>
+              <b>Your NFT:</b>
+              <img src={session?.user.image} />
+              <p>{session.user.name}&apos;s thirdweb Discord Member NFT</p>
+            </div>
 
             <button
               className={`${styles.mainButton} ${styles.spacerTop}`}
