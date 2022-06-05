@@ -4,7 +4,7 @@
 
 In this guide, we will utilize [signature-based minting](https://portal.thirdweb.com/python/erc721-signature-minting) of NFTs as a mechanism to reward users of a specific community. We connect user's with their Discord account, and generate signatures for an NFT if the user is a **member** of the Discord server.
 
-**Check out the Demo here**: https://community-rewards.vercel.app
+**Check out the Demo here**: https://community-rewards.thirdweb-example.com
 
 If you're interested in reading the basics of signature-based minting, we recommend starting with this example repository: https://github.com/thirdweb-example/signature-based-minting-next-ts
 
