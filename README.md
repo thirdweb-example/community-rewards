@@ -24,7 +24,11 @@ If you're interested in reading the basics of signature-based minting, we recomm
 
 - Create an NFT Collection contract via the thirdweb dashboard on the Polygon Mumbai (MATIC) test network.
 
-- Clone this repository.
+- Create a project using this example by running:
+
+```bash
+npx create-tw-app --example community-rewards
+```
 
 - Find and replace our demo NFT Collection address (`0xb5201E87b17527722A641Ac64097Ece34B21d10A`) in this repository with your NFT Collection contract address from the dashboard.
 
