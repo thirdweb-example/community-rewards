@@ -27,7 +27,7 @@ If you're interested in reading the basics of signature-based minting, we recomm
 - Create a project using this example by running:
 
 ```bash
-npx thirdweb create --example community-rewards
+npx thirdweb create --template community-rewards
 ```
 
 - Find and replace our demo NFT Collection address (`0xb5201E87b17527722A641Ac64097Ece34B21d10A`) in this repository with your NFT Collection contract address from the dashboard.
