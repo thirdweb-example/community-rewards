@@ -10,15 +10,15 @@ If you're interested in reading the basics of signature-based minting, we recomm
 
 ## Tools:
 
-- [**thirdweb React SDK**](https://docs.thirdweb.com/react): To connect to our NFT Collection Smart contract via React hooks such as [useNFTCollection](https://docs.thirdweb.com/react/react.usenftcollection), and allow users to sign in with [useMetamask](https://docs.thirdweb.com/react/react.usemetamask).
+- [**React SDK**](https://docs.thirdweb.com/react): To connect to our NFT Collection Smart contract via React hooks such as [useNFTCollection](https://docs.thirdweb.com/react/react.usenftcollection), and allow users to sign in with [useMetamask](https://docs.thirdweb.com/react/react.usemetamask).
 
-- [**thirdweb NFT Collection**](https://portal.thirdweb.com/pre-built-contracts/nft-collection): This is the smart contract that our NFTs will be created into.
+- [**NFT Collection**](https://portal.thirdweb.com/pre-built-contracts/nft-collection): This is the smart contract that our NFTs will be created into.
 
-- [**thirdweb TypeScript SDK**](https://docs.thirdweb.com/typescript): To mint new NFTs with [signature based minting](https://docs.thirdweb.com/typescript/sdk.nftcollection.signature)!
+- [**TypeScript SDK**](https://docs.thirdweb.com/typescript): To mint new NFTs with [signature based minting](https://docs.thirdweb.com/typescript/sdk.nftcollection.signature)!
 
 - [**Next JS API Routes**](https://nextjs.org/docs/api-routes/introduction): For us to securely generate signatures on the server-side, on behalf of our wallet, using our wallet's private key. As well as making server-side queries to the Discord APIs with the user's access token to view which servers they are part of.
 
-- [**Next Auth**](https://next-auth.js.org/): To authenticate with Discord and access the user's Discord data such as their username, and which servers they are members of.
+- [**NextAuth**](https://next-auth.js.org/): To authenticate with Discord and access the user's Discord data such as their username, and which servers they are members of.
 
 ## Using This Repo
 
