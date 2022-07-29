@@ -12,7 +12,7 @@ If you're interested in reading the basics of signature-based minting, we recomm
 
 - [**thirdweb React SDK**](https://docs.thirdweb.com/react): To connect to our NFT Collection Smart contract via React hooks such as [useNFTCollection](https://docs.thirdweb.com/react/react.usenftcollection), and allow users to sign in with [useMetamask](https://docs.thirdweb.com/react/react.usemetamask).
 
-- [**thirdweb NFT Collection**](https://portal.thirdweb.com/contracts/nft-collection): This is the smart contract that our NFTs will be created into.
+- [**thirdweb NFT Collection**](https://portal.thirdweb.com/pre-built-contracts/nft-collection): This is the smart contract that our NFTs will be created into.
 
 - [**thirdweb TypeScript SDK**](https://docs.thirdweb.com/typescript): To mint new NFTs with [signature based minting](https://docs.thirdweb.com/typescript/sdk.nftcollection.signature)!
 
