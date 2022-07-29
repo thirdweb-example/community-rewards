@@ -82,7 +82,7 @@ For the MetaMask connection, we are using the [useMetamask](https://docs.thirdwe
 const connectWithMetamask = useMetamask();
 ```
 
-This works because we have the `ThirdwebProvider` setup in our [/pages/app.js](/pages/app.js) file, which allows us to use all of the thirdweb React SDK's helpful hooks.
+This works because we have the `ThirdwebProvider` setup in our [_app.js](/pages/_app.js) file, which allows us to use all of the thirdweb React SDK's helpful hooks.
 
 ```jsx
 // This is the chainId your dApp will work on.
