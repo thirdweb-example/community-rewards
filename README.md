@@ -104,7 +104,7 @@ function MyApp({ Component, pageProps }) {
 
 We are using the Authentication library [NextAuth.js](https://next-auth.js.org/) to authenticate users with their Discord accounts.
 
-`NextAuth` uses the [`pages/api/auth/[...nextauth].js`](pages/api/auth/[...nextauth].js) file to handle the authentication logic such as redirects for us.
+`NextAuth` uses the [`pages/api/auth/[...nextauth].js`](./pages/api/auth/[...nextauth].js) file to handle the authentication logic such as redirects for us.
 
 We setup the Discord Provider and pass in our Discord applications information that we got from the Discord Developer Portal (discussed below).
 
@@ -185,7 +185,7 @@ Now when we call `useSession` or `getSession`, we have access to the `accessToke
 
 Before the user see's the mint button, we make a check to see if the user is a member of the Discord server, using Next.js API Routes.
 
-This logic is performed on the [pages/api/check-is-in-server.js](pages/api/check-is-in-server.js) file.
+This logic is performed on the [pages/api/check-is-in-server.js](./pages/api/check-is-in-server.js) file.
 
 First, we get the user's accessToken from the session.
 
@@ -225,7 +225,7 @@ const thirdwebDiscordMembership = data?.find(
 res.status(200).json({ thirdwebMembership: thirdwebDiscordMembership });
 ```
 
-We then make a `fetch` request on the client to this API route on the [index.js](/pages/index.js) file:
+We then make a `fetch` request on the client to this API route on the [index.js](./pages/index.js) file:
 
 ```jsx
 // This is simply a client-side check to see if the user is a member of the discord in /api/check-is-in-server
@@ -270,7 +270,7 @@ Now the user can either make another request to mint the NFT, or join the Discor
 
 ## Signature Based Minting
 
-On the client-side, when the user clicks the `Mint` button, we make a request to the [generate-signature](/pages/api/generate-signature.js) API route to ask the server to generate a signature for us to use to mint an NFT.
+On the client-side, when the user clicks the `Mint` button, we make a request to the [generate-signature](./pages/api/generate-signature.js) API route to ask the server to generate a signature for us to use to mint an NFT.
 
 ```jsx
 // Make a request to the API route to generate a signature for us to mint the NFT with
@@ -347,7 +347,7 @@ res.status(200).json({
 });
 ```
 
-The client uses this signature to `mint` the NFT that was generated on the server back on [index.js](/pages/index.js):
+The client uses this signature to `mint` the NFT that was generated on the server back on [index.js](./pages/index.js):
 
 ```jsx
 // If the user meets the criteria to have a signature generated, we can use the signature
