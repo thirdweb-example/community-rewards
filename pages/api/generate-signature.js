@@ -40,8 +40,8 @@ export default async function generateNftSignature(req, res) {
     return;
   }
 
-  // You'll need to add your private key in a .env.local file in the root of your project
-  // !!!!! NOTE !!!!! NEVER LEAK YOUR PRIVATE KEY to anyone!
+  // NOTE: Using environment variables to store your private key is unsafe and not best practice.
+  // Learn how to store your private key securely here: https://portal.thirdweb.com/sdk/set-up-the-sdk/securing-your-private-key
   // This allows us (the contract owner) to control the generation of the mint signatures
   if (!process.env.PRIVATE_KEY) {
     throw new Error("You're missing PRIVATE_KEY in your .env.local file.");
