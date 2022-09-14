@@ -1,30 +1,19 @@
-import {
-  useAddress,
-  useNFTCollection,
-  useNetwork,
-  useNetworkMismatch,
-} from "@thirdweb-dev/react";
-import { ChainId } from "@thirdweb-dev/react";
+import { useAddress, useContract, Web3Button } from "@thirdweb-dev/react";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import SignIn from "../components/SignIn";
 import styles from "../styles/Theme.module.css";
 
+export const contractAddress = "0xb5201E87b17527722A641Ac64097Ece34B21d10A";
+
 export default function Home() {
   // Grab the currently connected wallet's address
   const address = useAddress();
-
   // Get the currently authenticated user's session (Next Auth + Discord)
   const { data: session } = useSession();
 
-  // Hooks to enforce the user is on the correct network (Mumbai as declared in _app.js) before minting
-  const isOnWrongNetwork = useNetworkMismatch();
-  const [, switchNetwork] = useNetwork();
-
   // Get the NFT Collection we deployed using thirdweb+
-  const nftCollectionContract = useNFTCollection(
-    "0xb5201E87b17527722A641Ac64097Ece34B21d10A"
-  );
+  const { contract: nftCollectionContract } = useContract(contractAddress);
 
   // This is simply a client-side check to see if the user is a member of the discord in /api/check-is-in-server
   // We ALSO check on the server-side before providing the signature to mint the NFT in /api/generate-signature
@@ -46,18 +35,6 @@ export default function Home() {
 
   // Function to create a signature on the server-side, and use the signature to mint the NFT
   async function mintNft() {
-    // Ensure wallet connected
-    if (!address) {
-      alert("Please connect your wallet to continue.");
-      return;
-    }
-
-    // Ensure correct network
-    if (isOnWrongNetwork) {
-      switchNetwork(ChainId.Mumbai);
-      return;
-    }
-
     // Make a request to the API route to generate a signature for us to mint the NFT with
     const signature = await fetch(`/api/generate-signature`, {
       method: "POST",
@@ -127,12 +104,14 @@ export default function Home() {
               <p>{session.user.name}&apos;s thirdweb Discord Member NFT</p>
             </div>
 
-            <button
-              className={`${styles.mainButton} ${styles.spacerTop}`}
-              onClick={mintNft}
+            <Web3Button
+              contractAddress={contractAddress}
+              colorMode="dark"
+              accentColor="#F213A4"
+              action={() => mintNft()}
             >
               Claim NFT
-            </button>
+            </Web3Button>
           </div>
         ) : (
           <div className={`${styles.main} ${styles.spacerTop}`}>

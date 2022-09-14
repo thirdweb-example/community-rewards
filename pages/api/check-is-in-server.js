@@ -1,10 +1,9 @@
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "./auth/[...nextauth]";
 
 export default async function checkIsInServer(req, res) {
   // Get the Next Auth session so we can use the accessToken as part of the discord API request
-  const session = await getSession({ req });
-
-  console.log("Session:", session);
+  const session = await unstable_getServerSession(req, res, authOptions);
 
   // Put Your Discord Server ID here
   const discordServerId = "834227967404146718";
@@ -23,6 +22,8 @@ export default async function checkIsInServer(req, res) {
 
   // Parse the response as JSON
   const data = await response.json();
+
+  console.log(data);
 
   // Filter all the servers to find the one we want
   // Returns undefined if the user is not a member of the server

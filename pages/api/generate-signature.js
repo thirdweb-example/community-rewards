@@ -1,9 +1,10 @@
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+import { authOptions } from "./auth/[...nextauth]";
 
 export default async function generateNftSignature(req, res) {
   // Get the Next Auth session so we can use the accessToken as part of the discord API request
-  const session = await getSession({ req });
+  const session = await unstable_getServerSession(req, res, authOptions);
 
   // Put Your Discord Server ID here
   const discordServerId = "834227967404146718";
@@ -51,12 +52,12 @@ export default async function generateNftSignature(req, res) {
   const sdk = ThirdwebSDK.fromPrivateKey(process.env.PRIVATE_KEY, "mumbai");
 
   // Load the NFT Collection via it's contract address using the SDK
-  const nftCollection = sdk.getNFTCollection(
+  const nftCollection = await sdk.getNFTCollection(
     "0xb5201E87b17527722A641Ac64097Ece34B21d10A"
   );
 
   // Generate the signature for the NFT mint transaction
-  const signedPayload = await nftCollection.signature.generate({
+  const signedPayload = await nftCollection.erc721.signature.generate({
     to: claimerAddress,
     metadata: {
       name: `thirdweb Discord Member NFT`,
