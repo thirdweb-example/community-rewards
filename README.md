@@ -82,15 +82,15 @@ For the MetaMask connection, we are using the [useMetamask](https://docs.thirdwe
 const connectWithMetamask = useMetamask();
 ```
 
-This works because we have the `ThirdwebProvider` setup in our [_app.js](/pages/_app.js) file, which allows us to use all of the thirdweb React SDK's helpful hooks.
+This works because we have the `ThirdwebProvider` setup in our [\_app.js](/pages/_app.js) file, which allows us to use all of the thirdweb React SDK's helpful hooks.
 
 ```jsx
-// This is the chainId your dApp will work on.
-const activeChainId = ChainId.Mumbai;
+// This is the chain your dApp will work on.
+const activeChain = "mumbai";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThirdwebProvider desiredChainId={activeChainId}>
+    <ThirdwebProvider activeChain={activeChain}>
       {/* Next Auth Session Provider */}
       <SessionProvider session={pageProps.session}>
         <Component {...pageProps} />
