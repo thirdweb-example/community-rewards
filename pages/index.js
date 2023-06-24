@@ -106,8 +106,7 @@ export default function Home() {
 
             <Web3Button
               contractAddress={contractAddress}
-              colorMode="dark"
-              accentColor="#F213A4"
+              theme="dark"
               action={() => mintNft()}
             >
               Claim NFT

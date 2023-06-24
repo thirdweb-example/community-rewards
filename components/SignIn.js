@@ -1,12 +1,10 @@
-import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 import styles from "../styles/Theme.module.css";
 
 export default function SignIn() {
   const address = useAddress();
-  const connectWithMetamask = useMetamask();
-  const disconnectWallet = useDisconnect();
   const { data: session } = useSession();
 
   if (session && address) {
@@ -16,12 +14,7 @@ export default function SignIn() {
           Sign out of Discord
         </a>
         |
-        <a
-          onClick={() => disconnectWallet()}
-          className={styles.secondaryButton}
-        >
-          Disconnect wallet
-        </a>
+        <ConnectWallet theme="dark" />
       </div>
     );
   }
@@ -32,12 +25,7 @@ export default function SignIn() {
       <div className={styles.main}>
         <h2 className={styles.noGapBottom}>Connect Your Wallet</h2>
         <p>Connect your wallet to check eligibility.</p>
-        <button
-          onClick={connectWithMetamask}
-          className={`${styles.mainButton} ${styles.spacerTop}`}
-        >
-          Connect Wallet
-        </button>
+        <ConnectWallet theme="dark" />
       </div>
     );
   }
