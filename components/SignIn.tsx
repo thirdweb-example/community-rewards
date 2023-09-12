@@ -9,17 +9,16 @@ export default function SignIn() {
 
   if (session && address) {
     return (
-      <div className={styles.bigSpacerTop}>
-        <a onClick={() => signOut()} className={styles.secondaryButton}>
+      <div className={styles.buttons}>
+        <button onClick={() => signOut()} className={styles.mainButton}>
           Sign out of Discord
-        </a>
-        |
+        </button>
         <ConnectWallet theme="dark" />
       </div>
     );
   }
 
-  // 1. Connect with MetaMask
+  // 1. Connect wallet
   if (!address) {
     return (
       <div className={styles.main}>
@@ -57,7 +56,7 @@ export default function SignIn() {
 
         <button
           className={`${styles.mainButton} ${styles.spacerTop}`}
-          onClick={signIn}
+          onClick={() => signIn("discord")}
         >
           Connect Discord
         </button>

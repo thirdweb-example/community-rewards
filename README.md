@@ -302,7 +302,10 @@ Firstly, we initialize the thirdweb SDK using our private key.
 
 ```jsx
 // Initialize the Thirdweb SDK on the serverside using the private key on the mumbai network
-const sdk = ThirdwebSDK.fromPrivateKey(process.env.PRIVATE_KEY, "mumbai");
+const sdk = ThirdwebSDK.fromPrivateKey(
+  process.env.WALLET_PRIVATE_KEY,
+  "mumbai"
+);
 ```
 
 You'll need another entry in your `.env.local` file, containing your private key for this to work.
@@ -310,7 +313,7 @@ You'll need another entry in your `.env.local` file, containing your private key
 **IMPORTANT:** Never use your private key value outside of a secured server-side environment.
 
 ```
-PRIVATE_KEY=<your-private-key-here>
+WALLET_PRIVATE_KEY=<your-private-key-here>
 ```
 
 Next, we get our NFT collection contract:

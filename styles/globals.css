@@ -1,9 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
-/* Box sizing rules */
-*,
-*::before,
-*::after {
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -13,14 +12,6 @@ body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   padding-bottom: 250px;
-}
-
-/* Inherit fonts for inputs and buttons */
-input,
-button,
-textarea,
-select {
-  font: inherit;
 }
 
 :root {
@@ -35,7 +26,6 @@ body {
   font-family: "Inter", sans-serif;
   color: var(--white);
   display: flex;
-  margin: 0;
   text-align: center;
 }
 
