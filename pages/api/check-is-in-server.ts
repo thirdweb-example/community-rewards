@@ -1,12 +1,14 @@
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
+import { NextApiRequest, NextApiResponse } from "next";
+import { DISCORD_SERVER_ID } from "../../consts";
 
-export default async function checkIsInServer(req, res) {
+export default async function checkIsInServer(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   // Get the Next Auth session so we can use the accessToken as part of the discord API request
-  const session = await unstable_getServerSession(req, res, authOptions);
-
-  // Put Your Discord Server ID here
-  const discordServerId = "834227967404146718";
+  const session = await getServerSession(req, res, authOptions);
 
   // Read the access token from the session
   const accessToken = session?.accessToken;
@@ -18,22 +20,18 @@ export default async function checkIsInServer(req, res) {
     },
   });
 
-  // You may get rate limitd here and receive an error.
-
   // Parse the response as JSON
   const data = await response.json();
-
-  console.log(data);
 
   // Filter all the servers to find the one we want
   // Returns undefined if the user is not a member of the server
   // Returns the server object if the user is a member
   const thirdwebDiscordMembership = data?.find(
-    (server) => server.id === discordServerId
+    (server: { id: string }) => server.id === DISCORD_SERVER_ID
   );
 
   // Return undefined or the server object to the client.
-  res
+  return res
     .status(200)
     .json({ thirdwebMembership: thirdwebDiscordMembership ?? undefined });
 }

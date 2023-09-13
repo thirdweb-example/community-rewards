@@ -3,23 +3,16 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import SignIn from "../components/SignIn";
 import styles from "../styles/Theme.module.css";
-
-export const contractAddress = "0xb5201E87b17527722A641Ac64097Ece34B21d10A";
+import Image from "next/image";
+import { CONTRACT_ADDRESS } from "../consts";
 
 export default function Home() {
-  // Grab the currently connected wallet's address
   const address = useAddress();
-  // Get the currently authenticated user's session (Next Auth + Discord)
   const { data: session } = useSession();
-
-  // Get the NFT Collection we deployed using thirdweb+
-  const { contract: nftCollectionContract } = useContract(contractAddress);
-
-  // This is simply a client-side check to see if the user is a member of the discord in /api/check-is-in-server
-  // We ALSO check on the server-side before providing the signature to mint the NFT in /api/generate-signature
-  // This check is to show the user that they are eligible to mint the NFT on the UI.
+  const { contract: nftCollectionContract } = useContract(CONTRACT_ADDRESS);
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
     if (session) {
       setLoading(true);
@@ -34,7 +27,7 @@ export default function Home() {
   }, [session]);
 
   // Function to create a signature on the server-side, and use the signature to mint the NFT
-  async function mintNft() {
+  const mintNft = async () => {
     // Make a request to the API route to generate a signature for us to mint the NFT with
     const signature = await fetch(`/api/generate-signature`, {
       method: "POST",
@@ -49,9 +42,15 @@ export default function Home() {
     if (signature.status === 200) {
       const json = await signature.json();
       const signedPayload = json.signedPayload;
-      const nft = await nftCollectionContract?.signature.mint(signedPayload);
+      const nft = await nftCollectionContract?.erc721.signature.mint(
+        signedPayload
+      );
 
       // Show a link to view the NFT they minted
+      if (!nft) {
+        return alert("Something went wrong. Are you a member of the discord?");
+      }
+
       alert(
         `Success 🔥 Check out your NFT here: https://testnets.opensea.io/assets/mumbai/0xb5201e87b17527722a641ac64097ece34b21d10a/${nft.id.toNumber()}`
       );
@@ -60,7 +59,7 @@ export default function Home() {
     else {
       alert("Something went wrong. Are you a member of the discord?");
     }
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -100,12 +99,19 @@ export default function Home() {
             {/* NFT Preview */}
             <div className={styles.nftPreview}>
               <b>Your NFT:</b>
-              <img src={session?.user.image} />
-              <p>{session.user.name}&apos;s thirdweb Discord Member NFT</p>
+              {session?.user?.image && (
+                <Image
+                  src={session?.user.image}
+                  alt={session?.user.name || ""}
+                  width={100}
+                  height={100}
+                />
+              )}
+              <p>{session?.user?.name}&apos;s thirdweb Discord Member NFT</p>
             </div>
 
             <Web3Button
-              contractAddress={contractAddress}
+              contractAddress={CONTRACT_ADDRESS}
               theme="dark"
               action={() => mintNft()}
             >
